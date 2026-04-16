@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ta">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>நிர்வாகம் | PMK Anthiyur Premium Intranet</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Mukta+Malar:wght@200;400;700&family=Outfit:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #008000 0%, #004d00 100%);
+            --secondary-gradient: linear-gradient(135deg, #FFD700 0%, #FFB800 100%);
+            --dark-sidebar: #0f172a;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Outfit', 'Mukta Malar', sans-serif;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            background-color: var(--dark-sidebar);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            z-index: 1000;
+            transition: var(--transition);
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            /* Allow scrolling if content is too tall */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            flex-shrink: 0;
+            /* Header stays at top */
+        }
+
+        .sidebar nav {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            /* Take remaining space to allow mt-auto work */
+            padding-bottom: 2rem;
+        }
+
+        .sidebar-logo {
+            width: 50px;
+            filter: drop-shadow(0 0 8px var(--secondary-color));
+        }
+
+        .nav-link {
+            color: #94a3b8;
+            padding: 0.8rem 1.5rem;
+            margin: 0.2rem 1rem;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link i {
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link.active {
+            background: var(--primary-gradient);
+            box-shadow: 0 4px 12px rgba(0, 128, 0, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            padding: 2rem;
+            transition: var(--transition);
+        }
+
+        /* Premium Cards */
+        .stat-card {
+            background: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+        .card-members::after {
+            background: #008000;
+        }
+
+        .card-queries::after {
+            background: #FFB800;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .bg-success-light {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .bg-warning-light {
+            background: #fef9c3;
+            color: #854d0e;
+        }
+
+        /* Data Tables */
+        .data-card {
+            background: #fff;
+            border-radius: 24px;
+            border: none;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            overflow: hidden;
+        }
+
+        .table thead th {
+            background-color: #f8fafc;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            padding: 1.2rem;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .table td {
+            padding: 1.2rem;
+            vertical-align: middle;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .voter-id-tag {
+            background: #f1f5f9;
+            color: #334155;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Buttons & Actions */
+        .btn-action {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .btn-export {
+            background: var(--primary-gradient);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 128, 0, 0.2);
+        }
+
+        .btn-export:hover {
+            transform: scale(1.05);
+            color: #fff;
+        }
+
+        .search-box {
+            background: #fff;
+            border-radius: 12px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            width: 300px;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding-left: 10px;
+        }
+
+        @media (max-width: 991px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+                padding-top: 5rem !important;
+            }
+
+            .sidebar-toggle {
+                display: flex !important;
+            }
+
+            .table {
+                min-width: 700px;
+                /* Ensure horizontal scroll on mobile */
+            }
+
+            .stat-card h2 {
+                font-size: 1.8rem !important;
+            }
+
+            .search-box {
+                width: 100% !important;
+                margin-bottom: 20px;
+            }
+
+            .voter-id-tag {
+                font-size: 0.7rem;
+                padding: 3px 6px;
+            }
+        }
+
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1200;
+            background: var(--dark-sidebar);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            width: 50px;
+            height: 50px;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            transition: var(--transition);
+        }
+
+        .sidebar-toggle:active {
+            transform: scale(0.9);
+        }
+
+        .btn-back {
+            background: #fff;
+            color: var(--dark-sidebar);
+            border: 1px solid #e2e8f0;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+
+        .btn-back:hover {
+            background: #f8fafc;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar Toggle -->
+    <button class="sidebar-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header text-center">
+            <div class="logo-glow mb-3">
+                <img src="./Images/pmk logo 2.png" alt="PMK Logo" class="sidebar-logo"
+                    style="width: 70px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));">
+            </div>
+            <h5 class="text-white fw-bold mb-1">நிர்வாக மேலாண்மை</h5>
+            <p class="text-white-50 small mb-0 opacity-75">ANTHIYUR CONSTITUENCY</p>
+            <div class="badge bg-warning text-dark mt-2 small fw-bold px-3">OFFICIAL PANEL</div>
+        </div>
+        <nav class="mt-4">
+            <!-- <div class="sidebar-id mt-2 mb-4 px-3 py-2 bg-black bg-opacity-25 rounded-3">
+                <span class="text-white-50 x-small fw-bold">ADMIN ID: PMK-ANT-26</span>
+            </div> -->
+
+            <a href="#" class="nav-link active" data-section="overview" onclick="showSection('overview')">
+                <i class="fas fa-chart-line"></i> மேலோட்டம் (Overview)
+            </a>
+            <a href="#" class="nav-link" data-section="members" onclick="showSection('members')">
+                <i class="fas fa-users"></i> உறுப்பினர்கள் (Members)
+            </a>
+            <a href="#" class="nav-link" data-section="queries" onclick="showSection('queries')">
+                <i class="fas fa-inbox"></i> கோரிக்கைகள் (Queries)
+            </a>
+
+            <div class="sidebar-label mt-4">ACTIONS</div>
+            <a href="index.html" class="nav-link">
+                <i class="fas fa-external-link-alt"></i> இணையதளம் செல்க
+            </a>
+            <a href="#" class="nav-link text-warning mt-auto" onclick="doLogout()">
+                <i class="fas fa-power-off"></i> வெளியேறு (Logout)
+            </a>
+            <a href="#" class="nav-link text-danger border-top border-secondary pt-3 mt-2" onclick="clearData()"
+                style="border-color: rgba(255,255,255,0.05) !important;">
+                <i class="fas fa-trash-alt"></i> தரவை நீக்கு (Clear All)
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Login Screen -->
+    <div id="loginScreen" class="d-flex align-items-center justify-content-center"
+        style="position:fixed; top:0; left:0; width:100%; height:100%; background:var(--dark-sidebar); z-index:2000;">
+        <div class="card p-4 shadow-lg text-center"
+            style="width: 100%; max-width: 400px; border-radius: 24px; background: #fff;">
+            <img src="leaderss\pmk logo 2.png" alt="Logo" width="80" class="mb-4 mx-auto">
+            <h4 class="fw-bold mb-2">நிர்வாக உள்நுழைவு</h4>
+            <p class="text-muted small mb-4">Admin Authentication Required</p>
+
+            <div class="mb-3 text-start">
+                <label class="form-label small fw-bold text-uppercase">கடவுச்சொல் (Password)</label>
+                <input type="password" id="adminPassword" class="form-control py-3"
+                    style="border-radius: 12px; background: #f8fafc;" placeholder="Enter Password">
+            </div>
+
+            <button class="btn btn-export w-100 py-3 mb-3" onclick="doLogin()" style="border-radius: 12px;">
+                உள்நுழை (Login) <i class="fas fa-sign-in-alt ms-2"></i>
+            </button>
+            <a href="index.html" class="btn btn-back w-100 py-3" style="border-radius: 12px;">
+                <i class="fas fa-arrow-left me-2"></i> முகப்பு செல்க (Back)
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content (Hidden by default) -->
+    <main id="dashboardContent" class="main-content" style="display: none;">
+        <header class="mb-5">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <a href="index.html" class="btn btn-back btn-sm py-1 px-3">
+                    <i class="fas fa-arrow-left me-1"></i> முகப்பு (Exit)
+                </a>
+                <span class="text-muted small">/ Dashboard Overview</span>
+            </div>
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
+                <div>
+                    <h2 class="fw-extrabold mb-0 text-dark">நிர்வாக மேலாண்மை <span
+                            class="text-muted fw-light">Portal</span></h2>
+                    <p class="text-muted mt-2" id="currentDateTime"></p>
+                </div>
+                <div class="d-flex flex-wrap gap-3">
+                    <div class="search-box w-100 w-md-auto">
+                        <i class="fas fa-search text-muted"></i>
+                        <input type="text" placeholder="தேடுக (Search)..." id="globalSearch" onkeyup="filterData()">
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-back border" onclick="exportToCSV('queries')">
+                            <i class="fas fa-file-export me-2"></i> Export Queries
+                        </button>
+                        <button class="btn btn-export" onclick="exportToCSV('members')">
+                            <i class="fas fa-file-export me-2"></i> Export Members
+                        </button>
+                    </div>
+                    <button class="btn btn-light rounded-circle shadow-sm" onclick="loadData()"><i
+                            class="fas fa-sync-alt"></i></button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dynamic Content Sections -->
+        <div id="overviewSec">
+            <div class="row g-4 mb-5">
+                <div class="col-xl-6">
+                    <div class="stat-card card-members h-100 border-0 shadow-sm rounded-4">
+                        <div class="d-flex align-items-center gap-4">
+                            <div class="stat-icon bg-success-light mb-0 shadow-sm"
+                                style="width: 60px; height: 60px; font-size: 1.8rem;">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div>
+                                <p class="text-muted small fw-bold text-uppercase mb-1" style="letter-spacing: 1px;">
+                                    மொத்த உறுப்பினர்கள்</p>
+                                <h2 class="fw-bold mb-0 display-5" id="statMembers">0</h2>
+                                <small class="text-success"><i class="fas fa-circle me-1 small"></i> Live
+                                    Database</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="stat-card card-queries h-100 border-0 shadow-sm rounded-4">
+                        <div class="d-flex align-items-center gap-4">
+                            <div class="stat-icon bg-warning-light mb-0 shadow-sm"
+                                style="width: 60px; height: 60px; font-size: 1.8rem;">
+                                <i class="fas fa-file-invoice"></i>
+                            </div>
+                            <div>
+                                <p class="text-muted small fw-bold text-uppercase mb-1" style="letter-spacing: 1px;">
+                                    நிர்வாக மனுக்கள்</p>
+                                <h2 class="fw-bold mb-0 display-5" id="statQueries">0</h2>
+                                <small class="text-warning"><i class="fas fa-clock me-1 small"></i> Pending
+                                    Review</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        </div>
+        </div>
+
+        <div id="membersSec">
+            <!-- Section: Members -->
+            <div class="data-card mb-5">
+                <div class="p-4 border-bottom bg-light bg-opacity-50 d-flex justify-content-between align-items-center">
+                    <h5 class="fw-bold mb-0"><i class="fas fa-address-card me-2 text-primary"></i>சமீபத்திய
+                        உறுப்பினர்கள்</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0" id="membersTable">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">உறுப்பினர் விவரம்</th>
+                                <th>தொடர்பு எண்</th>
+                                <th>வாக்காளர் ID</th>
+                                <th>பகுதி / வட்டம்</th>
+                                <th class="text-end pe-4">பதிவுத் தேதி</th>
+                            </tr>
+                        </thead>
+                        <tbody id="memberList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="queriesSec">
+            <!-- Section: Queries -->
+            <div class="data-card">
+                <div class="p-4 border-bottom bg-light bg-opacity-50">
+                    <h5 class="fw-bold mb-0"><i class="fas fa-inbox me-2 text-warning"></i>பெறப்பட்ட மனுக்கள்</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0" id="queriesTable">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">பெயர் / ஊர்</th>
+                                <th>வாக்காளர் ID</th>
+                                <th>வகைப்பாடு</th>
+                                <th>செய்தி விவரம்</th>
+                                <th>வார்டு</th>
+                                <th class="text-end pe-4">நேரம்</th>
+                            </tr>
+                        </thead>
+                        <tbody id="queryList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- No Data State -->
+        <div id="noData" class="text-center py-5 d-none">
+            <div class="mb-4">
+                <i class="fas fa-folder-open fa-5x text-muted opacity-20"></i>
+            </div>
+            <h4 class="text-muted">தகவல்கள் எதுவும் இல்லை</h4>
+            <p class="text-muted small">உறுப்பினர் படிவம் அல்லது தொடர்பு படிவத்தை பூர்த்தி செய்யவும்.</p>
+        </div>
+    </main>
+
+    <script>
+        // Update Clock
+        function updateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            document.getElementById('currentDateTime').innerText = now.toLocaleDateString('ta-IN', options);
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Security / Login Logic
+        function checkAuth() {
+            const isAuth = sessionStorage.getItem('intranet_auth');
+            const loginScreen = document.getElementById('loginScreen');
+            const dashboardContent = document.getElementById('dashboardContent');
+            const sidebar = document.querySelector('.sidebar');
+
+            if (isAuth === 'true') {
+                loginScreen.style.setProperty('display', 'none', 'important');
+                dashboardContent.style.display = 'block';
+                if (sidebar) sidebar.style.display = 'block';
+                loadData();
+            } else {
+                loginScreen.style.setProperty('display', 'flex', 'important');
+                dashboardContent.style.display = 'none';
+                if (sidebar) sidebar.style.display = 'none';
+            }
+        }
+
+        function doLogin() {
+            const passInput = document.getElementById('adminPassword');
+            if (passInput.value === "pmk2026") {
+                sessionStorage.setItem('intranet_auth', 'true');
+                checkAuth();
+            } else {
+                alert("தவறான கடவுச்சொல்! (Incorrect password!)");
+                passInput.value = "";
+                passInput.focus();
+            }
+        }
+
+        function doLogout() {
+            sessionStorage.removeItem('intranet_auth');
+            checkAuth();
+        }
+
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        }
+
+        function showSection(sec) {
+            // Hide all
+            document.getElementById('overviewSec').style.display = 'none';
+            document.getElementById('membersSec').style.display = 'none';
+            document.getElementById('queriesSec').style.display = 'none';
+
+            // Remove active class from all links
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+
+            // Show target
+            if (sec === 'overview') {
+                document.getElementById('overviewSec').style.display = 'block';
+                document.getElementById('membersSec').style.display = 'block';
+                document.getElementById('queriesSec').style.display = 'block';
+            } else if (sec === 'members') {
+                document.getElementById('membersSec').style.display = 'block';
+            } else if (sec === 'queries') {
+                document.getElementById('queriesSec').style.display = 'block';
+            }
+
+            // Set active link
+            document.querySelector(`[data-section="${sec}"]`).classList.add('active');
+
+            // Close sidebar on mobile after click
+            if (window.innerWidth < 992) {
+                toggleSidebar();
+            }
+        }
+
+        // Allow 'Enter' key to login
+        document.getElementById('adminPassword').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                doLogin();
+            }
+        });
+
+        function loadData() {
+            const members = JSON.parse(localStorage.getItem('pmk_members_data') || '[]');
+            const queries = JSON.parse(localStorage.getItem('pmk_queries') || '[]');
+
+            document.getElementById('statMembers').innerText = members.length;
+            document.getElementById('statQueries').innerText = queries.length;
+
+            const memberList = document.getElementById('memberList');
+            memberList.innerHTML = '';
+            members.forEach(m => {
+                memberList.innerHTML += `
+                    <tr>
+                        <td class="ps-4">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px; font-weight: bold;">
+                                    ${m.name.charAt(0)}
+                                </div>
+                                <div class="fw-bold text-dark">${m.name}</div>
+                            </div>
+                        </td>
+                        <td><a href="tel:${m.phone}" class="text-decoration-none text-dark"><i class="fas fa-phone-alt me-2 text-muted"></i>${m.phone}</a></td>
+                        <td><span class="voter-id-tag">${m.voterID}</span></td>
+                        <td class="small">${m.district} / Ward: ${m.ward}</td>
+                        <td class="text-end pe-4 small text-muted">${m.timestamp}</td>
+                    </tr>
+                `;
+            });
+
+            const queryList = document.getElementById('queryList');
+            queryList.innerHTML = '';
+            queries.reverse().forEach(q => {
+                queryList.innerHTML += `
+                    <tr>
+                        <td class="ps-4">
+                            <div class="fw-bold">${q.name}</div>
+                            <div class="small text-muted">${q.area}</div>
+                        </td>
+                        <td><span class="voter-id-tag">${q.voterId || '---'}</span></td>
+                        <td><span class="badge rounded-pill bg-light text-dark border">${q.subject}</span></td>
+                        <td><div class="small text-truncate" style="max-width: 200px;" title="${q.message}">${q.message}</div></td>
+                        <td><span class="fw-bold">W: ${q.ward}</span></td>
+                        <td class="text-end pe-4 small text-muted">${q.timestamp}</td>
+                    </tr>
+                `;
+            });
+
+            if (members.length === 0 && queries.length === 0) {
+                document.getElementById('noData').classList.remove('d-none');
+            } else {
+                document.getElementById('noData').classList.add('d-none');
+            }
+        }
+
+        function filterData() {
+            const search = document.getElementById('globalSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(search) ? '' : 'none';
+            });
+        }
+
+        function clearData() {
+            if (confirm('நிச்சயமாக தரவுகளை நீக்க வேண்டுமா? இது நிரந்தரமாக நீக்கிவிடும்.')) {
+                localStorage.removeItem('pmk_members_data');
+                localStorage.removeItem('pmk_voters_list');
+                localStorage.removeItem('pmk_queries');
+                loadData();
+            }
+        }
+
+        function exportToCSV(type) {
+            if (type === 'members') {
+                const members = JSON.parse(localStorage.getItem('pmk_members_data') || '[]');
+                if (members.length === 0) return alert("ஏற்றுமதி செய்ய தரவு இல்லை!");
+
+                let csv = "Name,Phone,VoterID,District,Ward,Timestamp\n";
+                members.forEach(m => {
+                    csv += `"${m.name}","${m.phone}","${m.voterID}","${m.district}","${m.ward}","${m.timestamp}"\n`;
+                });
+                triggerDownload(csv, `PMK_Anthiyur_Members_${new Date().toLocaleDateString()}.csv`);
+            } else {
+                const queries = JSON.parse(localStorage.getItem('pmk_queries') || '[]');
+                if (queries.length === 0) return alert("ஏற்றுமதி செய்ய தரவு இல்லை!");
+
+                let csv = "Name,Phone,Area,Ward,VoterID,Subject,Message,Timestamp\n";
+                queries.forEach(q => {
+                    csv += `"${q.name}","${q.phone}","${q.area}","${q.ward}","${q.voterId}","${q.subject}","${q.message}","${q.timestamp}"\n`;
+                });
+                triggerDownload(csv, `PMK_Anthiyur_Queries_${new Date().toLocaleDateString()}.csv`);
+            }
+        }
+
+        function triggerDownload(csv, filename) {
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', filename);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        document.addEventListener('DOMContentLoaded', checkAuth);
+    </script>
+</body>
+
+</html>
